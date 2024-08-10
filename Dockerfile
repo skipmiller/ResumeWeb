@@ -1,32 +1,19 @@
-ARG NX_CLOUD_ACCESS_TOKEN
-
-# --- Base Image ---
-FROM node:lts-bullseye-slim AS base
-ARG NX_CLOUD_ACCESS_TOKEN
-
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-
-RUN corepack enable pnpm && corepack prepare pnpm@9.0.6 --activate
-
-WORKDIR /app
-
 # --- Build Image ---
-FROM base AS build
-ARG NX_CLOUD_ACCESS_TOKEN
-
-COPY .npmrc package.json pnpm-lock.yaml ./
-COPY ./tools/prisma /app/tools/prisma
-RUN pnpm install --frozen-lockfile
-
-COPY . .
-
-ENV NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN
-
-RUN pnpm run build
+    FROM node:lts-bullseye-slim AS build
+    ARG NX_CLOUD_ACCESS_TOKEN
+    
+    # Replace this
+    COPY package.json pnpm-lock.yaml ./
+    
+    # With this if .npmrc is not required
+    COPY package.json pnpm-lock.yaml ./
+    COPY ./tools/prisma /app/tools/prisma
+    
+    RUN pnpm install --frozen-lockfile
+    
 
 # --- Release Image ---
-FROM base AS release
+FROM node:lts-bullseye-slim AS release
 ARG NX_CLOUD_ACCESS_TOKEN
 
 RUN apt update && apt install -y dumb-init --no-install-recommends && rm -rf /var/lib/apt/lists/*

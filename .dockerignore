@@ -1,0 +1,4 @@
+node_modules
+.git
+.env
+.npmrc  # Exclude if not needed for build
