@@ -59,4 +59,4 @@
     EXPOSE 3000
     
     # Command to run your application
-    CMD ["node", "dist/main.js"] # Adjust the entry point according to your application
+    CMD ["node", "dist/main.js"]  # Adjust the entry point according to your application
