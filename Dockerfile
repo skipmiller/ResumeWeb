@@ -27,7 +27,7 @@ RUN pnpm run build
 
 # --- Release Image ---
 FROM base AS release
-ARG NX_CLOUD_ACCESS_TOKEN
+# ARG NX_CLOUD_ACCESS_TOKEN
 
 RUN apt update && apt install -y dumb-init --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
